@@ -89,7 +89,7 @@ int main(int argc, char *argv[]) {
     char input_file[1024];
     strcpy(input_file,"/home/sketchit/input/");
     strcat(input_file, argv[1]);
-    strcpy(saved_file,"../output/");
+    strcpy(saved_file,"/home/sketchit/output/");
     strcat(saved_file, argv[1]);
     cout<<saved_file;
 //    cvNamedWindow("desat",1);
