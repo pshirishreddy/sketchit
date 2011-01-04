@@ -1,5 +1,12 @@
 SKETCHING :)
 
+Currently Executable at backend/sketcher
+
+Running:
+sketcher <filename>.jpg
+
+saves output as filename.jpg_sketch.jpg
+
 Usage: 
 
 compile 
@@ -7,3 +14,5 @@ compile
 g++ `pkg-config --cflags --libs opencv` <filename.cpp>
 
 Requires OPENCV
+
+

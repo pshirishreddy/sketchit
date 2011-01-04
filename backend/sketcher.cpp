@@ -86,8 +86,8 @@ IplImage* Wrapper_sketch(IplImage* img)
 
 int main(int argc, char *argv[]) {
     char saved_file[256];
-    strcpy(saved_file, argv[1]);
-    strcat(saved_file, "_sketch.jpg");
+    strcpy(saved_file,"../output/");
+    strcat(saved_file, argv[1]);
     cout<<saved_file;
     cvNamedWindow("desat",1);
     IplImage *img =    cvLoadImage(argv[1]);
