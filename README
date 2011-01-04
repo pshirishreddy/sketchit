@@ -1,0 +1,9 @@
+SKETCHING :)
+
+Usage: 
+
+compile 
+
+g++ `pkg-config --cflags --libs opencv` <filename.cpp>
+
+Requires OPENCV
