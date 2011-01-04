@@ -22,18 +22,17 @@ struct coord{
   */
 IplImage* desat_lum(IplImage* img)
 {
-    IplImage *desat_img = cvCreateImage(cvSize(256,256),8,1);
-    IplImage *res_img = cvCreateImage(cvSize(256,256),8,3);
+    IplImage *desat_img = cvCreateImage(cvSize(img->width,img->height),8,1);
+    IplImage *res_img = cvCreateImage(cvSize(img->height,img->height),8,3);
     cvResize(img, res_img, CV_INTER_LINEAR);
-
     //cvFillImage( desat_img,255);
     CvScalar s;
     CvScalar ls;
 
-    for(int i=0; i<256; i++) {
-        for(int j=0; j<256; j++) {
+    for(int i=0; i<img->height; i++) {
+        for(int j=0; j<img->width; j++) {
 
-            s = cvGet2D( res_img, i, j);
+            s = cvGet2D( img, i, j);
             ls.val[0] = 0.07*s.val[0] + 0.72*s.val[1] + 0.21*s.val[2];
             cvSet2D( desat_img,i,j, ls );
         }
@@ -43,12 +42,12 @@ IplImage* desat_lum(IplImage* img)
 
 IplImage* layer_invert_blur(IplImage* img)
 {
-    IplImage *dup_lay = cvCreateImage(cvSize(256,256),8,1);
+    IplImage *dup_lay = cvCreateImage(cvSize(img->width,img->height),8,1);
     cvCopyImage(img, dup_lay);
     CvScalar s;
 
-    for(int i=0; i<256; i++) {
-        for(int j=0; j<256; j++) {
+    for(int i=0; i<img->height; i++) {
+        for(int j=0; j<img->width; j++) {
             s = cvGet2D( dup_lay, i, j);
             s.val[0] = 255-s.val[0];
             cvSet2D( dup_lay, i, j, s);
@@ -62,9 +61,9 @@ IplImage* layer_invert_blur(IplImage* img)
 IplImage* layer_dodge(IplImage* topLayer, IplImage* bottomLayer)
 {
     CvScalar st, sb, sr;
-    IplImage* res_img = cvCreateImage(cvSize(256,256),8,1);
-    for(int i=0; i<256; i++) {
-        for(int j=0; j<256; j++) {
+    IplImage* res_img = cvCreateImage(cvSize(topLayer->width,topLayer->height),8,1);
+    for(int i=0; i<topLayer->height; i++) {
+        for(int j=0; j<topLayer->width; j++) {
             st = cvGet2D( topLayer, i, j); sb = cvGet2D( bottomLayer, i, j);
             sr.val[0] = (sb.val[0]*256)/((255-st.val[0])+1);
             cvSet2D( res_img, i, j, sr);
@@ -85,10 +84,16 @@ IplImage* Wrapper_sketch(IplImage* img)
     return sketch;
 }
 
-int main() {
+int main(int argc, char *argv[]) {
+    char saved_file[256];
+    strcpy(saved_file, argv[1]);
+    strcat(saved_file, "_sketch.jpg");
+    cout<<saved_file;
     cvNamedWindow("desat",1);
-    IplImage *img =    cvLoadImage("image11.jpg");
+    IplImage *img =    cvLoadImage(argv[1]);
+
     IplImage *sketch = Wrapper_sketch(img);
+    cvSaveImage(saved_file, sketch);
     cvShowImage("desat",sketch);
     cvWaitKey(0);
     return 0;
