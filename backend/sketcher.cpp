@@ -86,16 +86,19 @@ IplImage* Wrapper_sketch(IplImage* img)
 
 int main(int argc, char *argv[]) {
     char saved_file[256];
+    char input_file[1024];
+    strcpy(input_file,"/home/sketchit/input/");
+    strcat(input_file, argv[1]);
     strcpy(saved_file,"../output/");
     strcat(saved_file, argv[1]);
     cout<<saved_file;
-    cvNamedWindow("desat",1);
-    IplImage *img =    cvLoadImage(argv[1]);
+//    cvNamedWindow("desat",1);
+    IplImage *img =    cvLoadImage(input_file);
 
     IplImage *sketch = Wrapper_sketch(img);
     cvSaveImage(saved_file, sketch);
-    cvShowImage("desat",sketch);
-    cvWaitKey(0);
+//    cvShowImage("desat",sketch);
+//    cvWaitKey(0);
     return 0;
 }
 
