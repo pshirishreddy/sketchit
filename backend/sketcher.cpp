@@ -53,7 +53,7 @@ IplImage* layer_invert_blur(IplImage* img)
             cvSet2D( dup_lay, i, j, s);
         }
     }
-    cvSmooth( dup_lay, dup_lay, CV_GAUSSIAN,17,17);
+    cvSmooth( dup_lay, dup_lay, CV_GAUSSIAN,99,99);
     return dup_lay;
 
 }
@@ -66,6 +66,8 @@ IplImage* layer_dodge(IplImage* topLayer, IplImage* bottomLayer)
         for(int j=0; j<topLayer->width; j++) {
             st = cvGet2D( topLayer, i, j); sb = cvGet2D( bottomLayer, i, j);
             sr.val[0] = (sb.val[0]*256)/((255-st.val[0])+1);
+    //        if(sr.val[0] == 0)
+    //            sr.val[0] = 255;
             cvSet2D( res_img, i, j, sr);
         }
     }
@@ -89,7 +91,7 @@ int main(int argc, char *argv[]) {
     char input_file[1024];
     strcpy(input_file,"/home/sketchit/input/");
     strcat(input_file, argv[1]);
-    strcpy(saved_file,"../output/");
+    strcpy(saved_file,"/home/sketchit/output/");
     strcat(saved_file, argv[1]);
     cout<<saved_file;
 //    cvNamedWindow("desat",1);
